@@ -5,6 +5,10 @@
 #include<QString>
 #include<QFile>
 #include<QJsonObject>
+#include<QIODevice>
+#include<QDir>
+#include<QVector>
+
 class QandA:public QObject
 {
     //Q_GADGET;
@@ -44,13 +48,21 @@ public:
         if(status==0)setApperance(0);
         else today_times=status;
     }
-    Q_INVOKABLE void addQandA(const QJsonObject &json)const;
-  Q_INVOKABLE  void readQandA(const QJsonObject &json);
+
     //void setQandA();A
     ~QandA(){
 
     }
+
 };
 
-//std::vector<QandA>my_QandA;
+class client:public QObject
+{
+    Q_OBJECT
+public:
+    Q_INVOKABLE void addQandA(QString,QString,bool)const;
+    Q_INVOKABLE  void readQandA();
+    //Q_INVOKABLE void findjs();
+    QVector<QandA*>mQandAVec;
+};
 #endif // MYEXE2_H

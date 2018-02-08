@@ -3,6 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.3
 import io.qt.myexe2.backend 1.0
+import io.qt.myexe2.client 1.0
 Window {
     //id:myexe2;
     visible: true;
@@ -154,12 +155,14 @@ Window {
                 }
             }
     */
-          /*  QandA{
+           QandA{
                id:my_QandA;
                q:text1.text;
                a:text2.text;
-            }*/
-
+            }
+           my_client{
+               id:mClient;
+           }
             Rectangle{
                 id:side3;
                 width: tab1.width;
@@ -178,7 +181,8 @@ Window {
                     onClicked: {
                         //  Qt.quit();
                         // console.log(text1.text);
-                       // my_QandA.addQandA()
+                        mClient.addQandA(text1,text2);
+                        mClient.readQandA();
                     }
                 }
 
@@ -189,6 +193,7 @@ Window {
             id:tab2;
             //    visible:false;
             anchors.fill:parent;
+           // my_QandA.findjs();
             Rectangle{
                 id:showquestion;
                 //anchors.top:bar.bottom;
@@ -198,7 +203,7 @@ Window {
                     id:questiontext;
                     width: showquestion.width*3/4;
                     height:showquestion.height*3/4;
-                    text:"text";
+                    text:"none";
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     //anchors.rightMargin: -718
@@ -220,7 +225,7 @@ Window {
 
                 Text {
                     id: answertext
-                    text: qsTr("text");
+                    text: qsTr("none");
                     width:parent.width*9/10;
                     height: parent.height*4/5;
                     anchors.centerIn: parent;
