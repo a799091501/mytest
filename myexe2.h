@@ -18,22 +18,21 @@ class QandA:public QObject
     Q_PROPERTY(QString a READ showa WRITE setanswer)
     Q_PROPERTY(int today_times READ times WRITE settimes)
     Q_PROPERTY(bool apperance READ hasApperance WRITE setApperance )
-private:
+
+public:
     QString q;
     QString a;
     int today_times;
     bool apperance;
     QJsonObject mJs;
-
-public:
     QandA(){}
-    /*QandA(QString &newq,QString &newa)
+    QandA(QString newq,QString  newa,bool s)
     {
         q=newq;
         a=newa;
         today_times=1;
-        apperance=1;
-    }*/
+        apperance=s;
+    }
     //void setJs(){QFile file("/data/01.json");}
     void setquestion(QString tmpQ){q=tmpQ;}
     void setanswer(QString tmpA){a=tmpA;}
@@ -60,9 +59,14 @@ class client:public QObject
 {
     Q_OBJECT
 public:
+    //int showa(){return a;}
+    client(){};
+    ~client(){};
     Q_INVOKABLE void addQandA(QString,QString,bool)const;
     Q_INVOKABLE  void readQandA();
     //Q_INVOKABLE void findjs();
-    QVector<QandA*>mQandAVec;
+    QVector<QandA>mQandAVec;
+    Q_INVOKABLE QString showa(){return mQandAVec[0].showa();}
+    Q_INVOKABLE QString showq(){return mQandAVec[0].showq();}
 };
 #endif // MYEXE2_H

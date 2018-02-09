@@ -3,7 +3,7 @@
 #include<QDir>
 #include<QJsonDocument>
 #include<QJsonArray>
-#include<QDebug>
+#include<iostream>
 void client::addQandA(QString q,QString a,bool status) const
 {
     QDir dir("C:/Users/THINK/Documents/myexe2/data");
@@ -28,8 +28,9 @@ void client::addQandA(QString q,QString a,bool status) const
 
 void client::readQandA()
 {
+    using namespace std;
     //QDir dir(mFile);
-    QFile file("C:/Users/THINK/Documents/myexe2/data");
+    QFile file("C:/Users/THINK/Documents/myexe2/data/data.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QString val=file.readAll();
     file.close();
@@ -40,9 +41,9 @@ void client::readQandA()
     for(int i=0;i<array.size();i++)
     {
         QJsonObject json=array.at(i).toObject();
-        qDebug()<<json.value("question").toString();
-        qDebug()<<json.value("answer").toString();
-        qDebug()<<json.value("apperance").toBool();
+        QandA tmpQandA(json.value("question").toString(),json.value("answer").toString(),json.value("apperance").toBool());
+        if(tmpQandA.apperance==1)
+        mQandAVec.push_back(tmpQandA);
     }
 }
 
