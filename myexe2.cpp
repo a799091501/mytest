@@ -3,32 +3,32 @@
 #include<QDir>
 #include<QJsonDocument>
 #include<QJsonArray>
+#include<QDebug>
 #include<iostream>
 void client::addQandA(QString q,QString a,bool status)
 {
     QDir dir("C:/Users/THINK/Documents/myexe2/data");
-    QFile file(dir.filePath("data.json"));
-  //  file.setFileName("test.json");
-    file.open(QIODevice::ReadWrite | QIODevice::Text);
-    QString val=file.readAll();
+       QFile file(dir.filePath("data.json"));
+     //  file.setFileName("test.json");
+       file.open(QIODevice::ReadWrite | QIODevice::Text);
+       QString val=file.readAll();
 
-    QJsonDocument d=QJsonDocument::fromJson(val.toUtf8());
-    //QJsonObject currentjson=d.object();
-    //int num = currentjson.sumquestion;
-    QJsonObject json;
-    json.insert("question",q);
-    json.insert("answer",a);
-    json.insert("apperance",status);
-    QJsonArray array=d.array();
-    array.push_back(json);
-    QJsonDocument md(array);
-    file.write(md.toJson());
-    file.close();
+       QJsonDocument d=QJsonDocument::fromJson(val.toUtf8());
+       //QJsonObject currentjson=d.object();
+       //int num = currentjson.sumquestion;
+       QJsonObject json;
+       json.insert("question",q);
+       json.insert("answer",a);
+       json.insert("apperance",status);
+       QJsonArray array;//=d.array();
+       //std::cerr<<array.size();
+       array.push_back(json);
+       QJsonDocument md(array);
+       file.write(md.toJson());
+       file.close();
     QandA tmpQandA(q,a,status);
-    QandA* temp=&tmpQandA;
-    mQandAVec.push_back(temp);
+    mQandAVec.push_back(tmpQandA);
 }
-
 void client::readQandA()
 {
     using namespace std;
@@ -41,19 +41,15 @@ void client::readQandA()
     //QJsonObject json=d.object();
     ///QString q,a;
     QJsonArray array=d.array();
-    std::cerr<<1;
-    //qDebug()<<"1";
     for(int i=0;i<array.size();i++)
     {
         QJsonObject json=array.at(i).toObject();
         QandA tmpQandA(json.value("question").toString(),json.value("answer").toString(),json.value("apperance").toBool());
-        QandA* t=&tmpQandA;
-        //std::cout<<tmpQandA.apperance;
         if(tmpQandA.apperance==1)
-        mQandAVec.push_back(t);
-        qDebug("readString = %s",qPrintable(t->a));
+        mQandAVec.push_back(tmpQandA);
     }
 }
+
 
 /*void client::findjs()
 {

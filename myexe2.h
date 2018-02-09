@@ -9,15 +9,15 @@
 #include<QDir>
 #include<QVector>
 #include<iostream>
-class QandA:public QObject
+class QandA
 {
     //Q_GADGET;
 
-    Q_OBJECT
-    Q_PROPERTY(QString q READ showq WRITE setquestion)
-    Q_PROPERTY(QString a READ showa WRITE setanswer)
-    Q_PROPERTY(int today_times READ times WRITE settimes)
-    Q_PROPERTY(bool apperance READ hasApperance WRITE setApperance )
+   // Q_OBJECT
+    //Q_PROPERTY(QString q READ showq WRITE setquestion)
+    //Q_PROPERTY(QString a READ showa WRITE setanswer)
+    //Q_PROPERTY(int today_times READ times WRITE settimes)
+    //Q_PROPERTY(bool apperance READ hasApperance WRITE setApperance )
 
 public:
     QString q;
@@ -58,16 +58,20 @@ public:
 class client:public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(int changednum READ getchangednum WRITE setChangednum)
 public:
+    int changednum;
+    int getchangednum(){return changednum;}
+    void setChangednum(int p){changednum=p;}
     //int showa(){return a;}
     client(){};
     ~client(){};
     Q_INVOKABLE void addQandA(QString,QString,bool);
     Q_INVOKABLE  void readQandA();
     //Q_INVOKABLE void findjs();
-    QVector<QandA*>mQandAVec;
-    Q_INVOKABLE QString showa(){return mQandAVec[0]->a;}
-    Q_INVOKABLE QString showq(){return mQandAVec[0]->q;}
+    QVector<QandA>mQandAVec;
+    Q_INVOKABLE QString showa(int p){QString tem=mQandAVec[0].a;return tem;}
+    Q_INVOKABLE QString showq(int p){QString tem=mQandAVec[0].q;return tem;}
     //void addQandA(const &QJsonObject);
 };
 #endif // MYEXE2_H
