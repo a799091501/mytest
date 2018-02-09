@@ -8,7 +8,7 @@
 #include<QIODevice>
 #include<QDir>
 #include<QVector>
-
+#include<iostream>
 class QandA:public QObject
 {
     //Q_GADGET;
@@ -37,8 +37,8 @@ public:
     void setquestion(QString tmpQ){q=tmpQ;}
     void setanswer(QString tmpA){a=tmpA;}
     void settimes(int newtime){today_times=newtime;}
-    QString showq()const{return q;}
-    QString showa() const{return a;}
+    QString showq(){return q;}
+    QString showa(){return a;}
     int times(){return today_times;}
     bool hasApperance(){return apperance;}
     void setApperance(bool a){apperance=a;}
@@ -62,11 +62,12 @@ public:
     //int showa(){return a;}
     client(){};
     ~client(){};
-    Q_INVOKABLE void addQandA(QString,QString,bool)const;
+    Q_INVOKABLE void addQandA(QString,QString,bool);
     Q_INVOKABLE  void readQandA();
     //Q_INVOKABLE void findjs();
-    QVector<QandA>mQandAVec;
-    Q_INVOKABLE QString showa(){return mQandAVec[0].showa();}
-    Q_INVOKABLE QString showq(){return mQandAVec[0].showq();}
+    QVector<QandA*>mQandAVec;
+    Q_INVOKABLE QString showa(){return mQandAVec[0]->a;}
+    Q_INVOKABLE QString showq(){return mQandAVec[0]->q;}
+    //void addQandA(const &QJsonObject);
 };
 #endif // MYEXE2_H

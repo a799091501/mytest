@@ -4,7 +4,7 @@
 #include<QJsonDocument>
 #include<QJsonArray>
 #include<iostream>
-void client::addQandA(QString q,QString a,bool status) const
+void client::addQandA(QString q,QString a,bool status)
 {
     QDir dir("C:/Users/THINK/Documents/myexe2/data");
     QFile file(dir.filePath("data.json"));
@@ -24,6 +24,9 @@ void client::addQandA(QString q,QString a,bool status) const
     QJsonDocument md(array);
     file.write(md.toJson());
     file.close();
+    QandA tmpQandA(q,a,status);
+    QandA* temp=&tmpQandA;
+    mQandAVec.push_back(temp);
 }
 
 void client::readQandA()
@@ -38,12 +41,17 @@ void client::readQandA()
     //QJsonObject json=d.object();
     ///QString q,a;
     QJsonArray array=d.array();
+    std::cerr<<1;
+    //qDebug()<<"1";
     for(int i=0;i<array.size();i++)
     {
         QJsonObject json=array.at(i).toObject();
         QandA tmpQandA(json.value("question").toString(),json.value("answer").toString(),json.value("apperance").toBool());
+        QandA* t=&tmpQandA;
+        //std::cout<<tmpQandA.apperance;
         if(tmpQandA.apperance==1)
-        mQandAVec.push_back(tmpQandA);
+        mQandAVec.push_back(t);
+        qDebug("readString = %s",qPrintable(t->a));
     }
 }
 

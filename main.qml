@@ -6,12 +6,13 @@ import io.qt.myexe2.client 1.0
 import io.qt.myexe2.backend 1.0
 
 Window {
-    //id:myexe2;
+    id:big_brother;
     visible: true;
     width: 1080
     height: 720
     //title: qsTr("Hello World");
     StackLayout{
+        visible: false;
         id:myexe2;
         width: parent.width;
         height:parent.height*15/16;
@@ -158,7 +159,7 @@ Window {
     */
             Myclient{
                 id:mClient;
-                // mClient.readQandA();
+
 
             }
            QandA{
@@ -178,6 +179,7 @@ Window {
                     height:parent.height*2/3;
                     anchors.centerIn: parent;
                     Text {
+
                         anchors.centerIn: parent;
                         text: qsTr("finish")
                         font.bold: true;
@@ -186,7 +188,7 @@ Window {
                         //  Qt.quit();
                         // console.log(text1.text);
                         mClient.addQandA(my_QandA.q,my_QandA.a,1);
-                        mClient.readQandA();
+                        //mClient.readQandA();
                     }
                 }
 
@@ -207,7 +209,7 @@ Window {
                     id:questiontext;
                     width: showquestion.width*3/4;
                     height:showquestion.height*3/4;
-                    text:mClient.showq();
+                    //text:mClient.showq();
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     //anchors.rightMargin: -718
@@ -229,7 +231,7 @@ Window {
 
                 Text {
                     id: answertext
-                    text: qsTr(mClient.showa());
+                    //text: qsTr(mClient.showa());
                     width:parent.width*9/10;
                     height: parent.height*4/5;
                     anchors.centerIn: parent;
@@ -276,6 +278,7 @@ Window {
     }
     TabBar{
         id:bar;
+        visible: false;
         width:myexe2.width;
         height:myexe2.height*1/16;
         TabButton
@@ -291,8 +294,25 @@ Window {
             text:qsTr("review");
             onClicked: {
                 myexe2.currentIndex=1;
-
+                my_QandA.q=mClient.showq();
+                my_QandA.a=mClient.showa();
+                answertext.text=my_QandA.a;
+                console.log(answertext.text);
             }
+        }
+    }
+    Button{
+        id:hello;
+        text:qsTr("Hello!");
+        width: big_brother.width*1/2;
+        height: big_brother.height*1/2;
+        anchors.centerIn: myexe2;
+        visible: true;
+        onClicked: {
+            mClient.readQandA();
+            bar.visible=1;
+            myexe2.visible=1;
+            hello.visible=0;
         }
     }
     }
