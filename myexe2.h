@@ -13,11 +13,12 @@ class QandA
 {
     //Q_GADGET;
 
-   // Q_OBJECT
-    //Q_PROPERTY(QString q READ showq WRITE setquestion)
-    //Q_PROPERTY(QString a READ showa WRITE setanswer)
-    //Q_PROPERTY(int today_times READ times WRITE settimes)
-    //Q_PROPERTY(bool apperance READ hasApperance WRITE setApperance )
+    /*Q_OBJECT
+    Q_PROPERTY(QString q READ showq WRITE setquestion)
+    Q_PROPERTY(QString a READ showa WRITE setanswer)
+    Q_PROPERTY(int today_times READ times WRITE settimes)
+    Q_PROPERTY(bool apperance READ hasApperance WRITE setApperance )*/
+
 
 public:
     QString q;
@@ -58,20 +59,33 @@ public:
 class client:public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int changednum READ getchangednum WRITE setChangednum)
+    Q_PROPERTY(int num READ getnum WRITE setNum)
+    Q_PROPERTY(bool sign READ getsign WRITE setSign )
+
 public:
     int changednum;
     int getchangednum(){return changednum;}
     void setChangednum(int p){changednum=p;}
     //int showa(){return a;}
+    int num;
+    int getnum(){return num;}
+    void setNum(int a){num=a;}
+    bool sign;
+    bool getsign(){return sign;}
+    void setSign(bool a){sign=a;}
     client(){};
     ~client(){};
     Q_INVOKABLE void addQandA(QString,QString,bool);
     Q_INVOKABLE  void readQandA();
     //Q_INVOKABLE void findjs();
     QVector<QandA>mQandAVec;
-    Q_INVOKABLE QString showa(int p){QString tem=mQandAVec[0].a;return tem;}
-    Q_INVOKABLE QString showq(int p){QString tem=mQandAVec[0].q;return tem;}
+    Q_INVOKABLE bool judge(){return (num==mQandAVec.size())?1:0;}
+    Q_INVOKABLE QString showa(int p){std::cerr<<p; return mQandAVec[p].a;}
+    Q_INVOKABLE QString showq(int p){std::cerr<<p; return mQandAVec[p].q;}
+    Q_INVOKABLE void SosoInsert();
+    Q_INVOKABLE void BadInsert();
+    Q_INVOKABLE void GoodInsert();
+
     //void addQandA(const &QJsonObject);
 };
 #endif // MYEXE2_H
